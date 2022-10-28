@@ -1,27 +1,130 @@
 import { client } from "../../libs/client";
 import styles from "../../styles/Home.module.scss";
 import Image from "next/image";
+import { HeaderMenuColored } from "../../components/HeaderMenuColored";
+import {
+  Card,
+  CardSection,
+  Container,
+  createStyles,
+  Grid,
+  Paper,
+} from "@mantine/core";
+import { UserCardImage } from "../../components/UserCardImage";
+import { FooterSocial } from "../../components/FooterSocial";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-export default function BlogId({ blog }) {
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const useStyles = createStyles((theme) => ({
+  title: {
+    textAlign: "center",
+    padding: "3.4rem 0 3.2rem",
+  },
+}));
+
+export default function BlogId({ blog, user }) {
+  const menuLinks = [
+    {
+      link: "/about",
+      label: "Features",
+    },
+    {
+      link: "/about",
+      label: "About",
+    },
+    {
+      link: "/pricing",
+      label: "Pricing",
+    },
+    //メガメニューの参考
+    // {
+    //   link: "#1",
+    //   label: "Learn",
+    //   links: [
+    //     {
+    //       link: "/docs",
+    //       label: "Documentation",
+    //     },
+    //     {
+    //       link: "/resources",
+    //       label: "Resources",
+    //     },
+    //     {
+    //       link: "/community",
+    //       label: "Community",
+    //     },
+    //     {
+    //       link: "/blog",
+    //       label: "Blog",
+    //     },
+    //   ],
+    // },
+    // {
+    //   link: "#2",
+    //   label: "Support",
+    //   links: [
+    //     {
+    //       link: "/faq",
+    //       label: "FAQ",
+    //     },
+    //     {
+    //       link: "/demo",
+    //       label: "Book a demo",
+    //     },
+    //     {
+    //       link: "/forums",
+    //       label: "Forums",
+    //     },
+    //   ],
+    // },
+  ];
+  const { classes } = useStyles();
+  console.log(blog);
   return (
-    <main className={styles.main}>
-      <h1 className={styles.title}>{blog.title}</h1>
-      <Image
-        src={blog.eyecatch.url}
-        width={blog.eyecatch.width}
-        height={blog.eyecatch.height}
-        alt="My avatar"
-      />
-      <p className={styles.publishedAt}>{blog.publishedAt}</p>
-      <p className="category">{blog.category && `${blog.category.name}`}</p>
-
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `${blog.body}`,
-        }}
-        className={styles.post}
-      />
-    </main>
+    <>
+      <HeaderMenuColored menuLinks={menuLinks}></HeaderMenuColored>
+      <Container size="lg">
+        <h1 className={classes.title}>{blog.title}</h1>
+        <Grid>
+          <Grid.Col span={9}>
+            <Paper shadow="xs" radius="md" p="md" withBorder>
+              <main>
+                {/* <Image
+                src={blog.eyecatch.url}
+                width={blog.eyecatch.width}
+                height={blog.eyecatch.height}
+                alt="My avatar"
+              /> */}
+                <p className={styles.publishedAt}>
+                  作成日:
+                  {dayjs
+                    .utc(blog.publishedAt)
+                    .tz("Asia/Tokyo")
+                    .format("YYYY-MM-DD")}
+                </p>
+                <p className="category">
+                  {blog.category && `${blog.category.name}`}
+                </p>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `${blog.content}`,
+                  }}
+                  className={styles.post}
+                />
+              </main>
+            </Paper>
+          </Grid.Col>
+          <Grid.Col span={3}>
+            <UserCardImage user={{ user }}></UserCardImage>
+          </Grid.Col>
+        </Grid>
+      </Container>
+      <FooterSocial></FooterSocial>
+    </>
   );
 }
 
@@ -36,11 +139,12 @@ export const getStaticPaths = async () => {
 // データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const data = await client.get({ endpoint: "blogs", contentId: id });
-
+  const blogData = await client.get({ endpoint: "blogs", contentId: id });
+  const userData = await client.get({ endpoint: "user" });
   return {
     props: {
-      blog: data,
+      blog: blogData,
+      user: userData.contents,
     },
   };
 };

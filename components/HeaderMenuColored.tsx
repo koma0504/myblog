@@ -2,28 +2,35 @@ import {
   createStyles,
   Header,
   Menu,
-  Group,
   Center,
   Burger,
   Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { IconSun, IconMoonStars } from "@tabler/icons";
+import Link from "next/link";
+
 // import { MantineLogo } from "@mantine/ds";
 
 const useStyles = createStyles((theme) => ({
   header: {
-    backgroundColor: theme.fn.variant({
-      variant: "filled",
-      color: theme.primaryColor,
-    }).background,
-    borderBottom: 0,
+    // backgroundColor: theme.fn.variant({
+    //   variant: "filled",
+    //   color: theme.primaryColor,
+    // }).background,
+    backgroundColor: theme.colorScheme,
+    borderBottom: `2px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
+    }`,
   },
-
+  title: {
+    marginRight: "auto",
+  },
   inner: {
     height: 56,
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
   },
 
@@ -48,7 +55,6 @@ const useStyles = createStyles((theme) => ({
     color: theme.white,
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
-
     "&:hover": {
       backgroundColor: theme.fn.lighten(
         theme.fn.variant({ variant: "filled", color: theme.primaryColor })
@@ -62,6 +68,7 @@ const useStyles = createStyles((theme) => ({
     marginRight: 5,
   },
 }));
+
 // 参考に残しとく
 // interface HeaderSearchProps {
 //   links: {
@@ -72,11 +79,13 @@ const useStyles = createStyles((theme) => ({
 // }
 
 // export function HeaderMenuColored(props:{ links:HeaderSearchProps }) {
-export function HeaderMenuColored(props: { links }) {
+export function HeaderMenuColored(props: { menuLinks }) {
   const [opened, { toggle }] = useDisclosure(false);
   const { classes } = useStyles();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
 
-  const items = props.links.map((link) => {
+  const items = props.menuLinks.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.link}>{item.label}</Menu.Item>
     ));
@@ -114,15 +123,18 @@ export function HeaderMenuColored(props: { links }) {
   });
 
   return (
-    <Header height={56} className={classes.header} mb={120}>
-      <Container>
+    <Header height={56} className={classes.header}>
+      <Container size="lg">
         <div className={classes.inner}>
           {/* <MantineLogo size={28} inverted /> */}
-          <h1>コマログ</h1>
-
-          <Group spacing={5} className={classes.links}>
+          <h1 className={classes.title}>
+            <Link href="/">
+              <a>L2</a>
+            </Link>
+          </h1>
+          {/* <Group spacing={5} className={classes.links}>
             {items}
-          </Group>
+          </Group> */}
           <Burger
             opened={opened}
             onClick={toggle}
@@ -130,6 +142,14 @@ export function HeaderMenuColored(props: { links }) {
             size="sm"
             color="#fff"
           />
+          <ActionIcon
+            variant="outline"
+            color={dark ? "white" : "dark"}
+            onClick={() => toggleColorScheme()}
+            title="Toggle color scheme"
+          >
+            {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
+          </ActionIcon>
         </div>
       </Container>
     </Header>

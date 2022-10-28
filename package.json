@@ -24,7 +24,7 @@
     "@mantine/prism": "^5.5.5",
     "@mantine/rte": "^5.5.5",
     "@mantine/spotlight": "^5.5.5",
-    "dayjs": "^1.11.5",
+    "dayjs": "^1.11.6",
     "embla-carousel-react": "^7.0.3",
     "microcms-js-sdk": "^2.2.1",
     "next": "12.3.1",

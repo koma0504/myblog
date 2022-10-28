@@ -1,14 +1,12 @@
 // pages/index.js
-import Link from "next/link";
 import { client } from "../libs/client";
 import { ArticlesCardsGrid } from "../components/ArticlesCardsGrid";
 import { HeaderMenuColored } from "../components/HeaderMenuColored";
 import { FooterSocial } from "../components/FooterSocial";
+import { HeroContentLeft } from "../components/HeroContentLeft";
 
 export default function Home({ blogs }) {
-  console.log("blogs", blogs);
-
-  const links = [
+  const menuLinks = [
     {
       link: "/about",
       label: "Features",
@@ -63,9 +61,11 @@ export default function Home({ blogs }) {
     //   ],
     // },
   ];
+
   return (
     <div>
-      <HeaderMenuColored links={links}></HeaderMenuColored>
+      <HeaderMenuColored menuLinks={menuLinks}></HeaderMenuColored>
+      <HeroContentLeft></HeroContentLeft>
       <ArticlesCardsGrid blogs={blogs}></ArticlesCardsGrid>
       <FooterSocial></FooterSocial>
     </div>

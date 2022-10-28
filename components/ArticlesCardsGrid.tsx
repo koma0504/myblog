@@ -1,4 +1,3 @@
-import { client } from "../libs/client";
 import {
   createStyles,
   SimpleGrid,
@@ -40,7 +39,6 @@ import {
 const useStyles = createStyles((theme) => ({
   card: {
     transition: "transform 150ms ease, box-shadow 150ms ease",
-
     "&:hover": {
       transform: "scale(1.01)",
       boxShadow: theme.shadows.md,
@@ -53,15 +51,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function ArticlesCardsGrid(props: { blogs }) {
+export function ArticlesCardsGrid(props: { blogs: any[] }) {
   const { classes } = useStyles();
-  console.log(props.blogs);
-
   const cards = props.blogs.map((article) => (
     <Card
       key={article.title}
       p="md"
       radius="md"
+      shadow="sm"
       component="a"
       href={`/blog/${article.id}`}
       className={classes.card}
@@ -79,7 +76,7 @@ export function ArticlesCardsGrid(props: { blogs }) {
   ));
 
   return (
-    <Container py="xl">
+    <Container size="lg" py="xl">
       <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
         {cards}
       </SimpleGrid>

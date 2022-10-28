@@ -1,9 +1,5 @@
 import { createStyles, Container, Group, ActionIcon } from "@mantine/core";
-import {
-  IconBrandTwitter,
-  IconBrandYoutube,
-  IconBrandInstagram,
-} from "@tabler/icons";
+import { IconBrandTwitter, IconBrandInstagram } from "@tabler/icons";
 // import { MantineLogo } from "@mantine/ds";
 
 const useStyles = createStyles((theme) => ({
@@ -40,16 +36,25 @@ export function FooterSocial() {
     <div className={classes.footer}>
       <Container className={classes.inner}>
         {/* <MantineLogo size={28} /> */}
-        <p>コマログ</p>
+        <p>L2</p>
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
-            <IconBrandTwitter size={18} stroke={1.5} />
+            <a
+              href="https://twitter.com/tyunmaru54"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconBrandTwitter size={18} stroke={1.5} />
+            </a>
           </ActionIcon>
           <ActionIcon size="lg">
-            <IconBrandYoutube size={18} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandInstagram size={18} stroke={1.5} />
+            <a
+              href="https://www.instagram.com/ratio_observatory/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IconBrandInstagram size={18} stroke={1.5} />
+            </a>
           </ActionIcon>
         </Group>
       </Container>
