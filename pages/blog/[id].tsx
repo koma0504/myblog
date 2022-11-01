@@ -22,7 +22,24 @@ dayjs.extend(timezone);
 const useStyles = createStyles((theme) => ({
   title: {
     textAlign: "center",
-    padding: "3.4rem 0 3.2rem",
+    gridArea: "1 / -1",
+    zIndex: 1,
+  },
+  titleWrap: {
+    display: "grid",
+    alignItems: "center",
+    marginBottom: 120,
+    color: "#fff",
+  },
+  imageWrap: {
+    gridArea: "1 / -1",
+    position: "relative",
+    minHeight: 160,
+    zIndex: -1,
+    filter: "brightness(.5)",
+  },
+  publishedAt: {
+    margin: 0,
   },
 }));
 
@@ -83,45 +100,45 @@ export default function BlogId({ blog, user }) {
     // },
   ];
   const { classes } = useStyles();
-  console.log(blog);
   return (
     <>
       <HeaderMenuColored menuLinks={menuLinks}></HeaderMenuColored>
-      <Container size="lg">
+      <div className={classes.titleWrap}>
         <h1 className={classes.title}>{blog.title}</h1>
-        <Grid>
-          <Grid.Col span={9}>
-            <Paper shadow="xs" radius="md" p="md" withBorder>
-              <main>
-                {/* <Image
-                src={blog.eyecatch.url}
-                width={blog.eyecatch.width}
-                height={blog.eyecatch.height}
-                alt="My avatar"
-              /> */}
-                <p className={styles.publishedAt}>
-                  作成日:
-                  {dayjs
-                    .utc(blog.publishedAt)
-                    .tz("Asia/Tokyo")
-                    .format("YYYY-MM-DD")}
-                </p>
-                <p className="category">
-                  {blog.category && `${blog.category.name}`}
-                </p>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: `${blog.content}`,
-                  }}
-                  className={styles.post}
-                />
-              </main>
-            </Paper>
-          </Grid.Col>
-          <Grid.Col span={3}>
-            <UserCardImage user={{ user }}></UserCardImage>
-          </Grid.Col>
-        </Grid>
+        <div className={classes.imageWrap}>
+          <Image
+            src={blog.eyecatch.url}
+            width={blog.eyecatch.width}
+            height={blog.eyecatch.height}
+            alt="My avatar"
+            objectFit="cover"
+            layout="fill"
+          />
+        </div>
+      </div>
+
+      <Container>
+        <Paper shadow="xs" radius="md" p="md" withBorder mb={80}>
+          <main>
+            <p className={classes.publishedAt}>
+              作成日:
+              {dayjs
+                .utc(blog.publishedAt)
+                .tz("Asia/Tokyo")
+                .format("YYYY-MM-DD")}
+            </p>
+            <p className="category">
+              {blog.category && `${blog.category.name}`}
+            </p>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `${blog.content}`,
+              }}
+              className={styles.post}
+            />
+          </main>
+        </Paper>
+        <UserCardImage user={{ user }}></UserCardImage>
       </Container>
       <FooterSocial></FooterSocial>
     </>

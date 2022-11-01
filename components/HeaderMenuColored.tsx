@@ -21,9 +21,6 @@ const useStyles = createStyles((theme) => ({
     //   color: theme.primaryColor,
     // }).background,
     backgroundColor: theme.colorScheme,
-    borderBottom: `2px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-    }`,
   },
   title: {
     marginRight: "auto",
